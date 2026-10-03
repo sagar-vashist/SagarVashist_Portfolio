@@ -1,0 +1,218 @@
+"use client";
+
+import React, { useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowUpRight, X } from "lucide-react";
+import { useLenis } from "@/hooks/useLenis";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { profile } from "@/data/profile";
+
+interface MenuOverlayProps {
+  isOpen: boolean;
+  onClose: () => void;
+  triggerRef: React.RefObject<HTMLButtonElement | null>;
+}
+
+const MENU_ITEMS = [
+  { id: "index", label: "Index", num: "00" },
+  { id: "about", label: "About", num: "01" },
+  { id: "work", label: "Work", num: "02" },
+  { id: "stack", label: "Stack", num: "03" },
+  { id: "experience", label: "Experience", num: "04" },
+  { id: "learning", label: "Learning", num: "05" },
+  { id: "contact", label: "Contact", num: "06" },
+];
+
+export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
+  const { scrollTo } = useLenis();
+  const prefersReduced = useReducedMotion();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Focus trap and ESC key handling
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Lock body scroll
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    // Focus close button on open
+    setTimeout(() => {
+      closeButtonRef.current?.focus();
+    }, 50);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        triggerRef.current?.focus();
+        return;
+      }
+
+      if (e.key === "Tab" && menuRef.current) {
+        const focusableElements = menuRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstEl = focusableElements[0];
+        const lastEl = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstEl) {
+            e.preventDefault();
+            lastEl?.focus();
+          }
+        } else {
+          if (document.activeElement === lastEl) {
+            e.preventDefault();
+            firstEl?.focus();
+          }
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose, triggerRef]);
+
+  const handleNavClick = (id: string) => {
+    onClose();
+    setTimeout(() => {
+      scrollTo(`#${id}`);
+      triggerRef.current?.focus();
+    }, 300);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={menuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation Menu"
+          initial={
+            prefersReduced
+              ? { opacity: 0 }
+              : { clipPath: "circle(0% at calc(100% - 4rem) 3rem)", opacity: 0 }
+          }
+          animate={{
+            clipPath: "circle(150% at calc(100% - 4rem) 3rem)",
+            opacity: 1,
+            transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+          }}
+          exit={
+            prefersReduced
+              ? { opacity: 0 }
+              : {
+                  clipPath: "circle(0% at calc(100% - 4rem) 3rem)",
+                  opacity: 0,
+                  transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                }
+          }
+          className="fixed inset-0 z-[150] h-[100dvh] w-full bg-[var(--bg)]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 md:p-16 overflow-y-auto"
+        >
+          {/* Top Bar with Wordmark and Close Button */}
+          <div className="flex items-center justify-between border-b border-[var(--line)] pb-6">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs uppercase tracking-widest text-[var(--accent)]">
+                NAVIGATION
+              </span>
+              <span className="h-1 w-1 rounded-full bg-[var(--text-dim)]" />
+              <span className="font-mono text-xs text-[var(--text-muted)]">
+                SAGAR VASHIST
+              </span>
+            </div>
+
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={() => {
+                onClose();
+                triggerRef.current?.focus();
+              }}
+              aria-label="Close navigation menu"
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--line)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-colors cursor-pointer"
+            >
+              <span className="font-mono text-xs uppercase tracking-widest">
+                CLOSE
+              </span>
+              <X className="w-4 h-4 text-[var(--accent)]" />
+            </button>
+          </div>
+
+          {/* Navigation Links List */}
+          <nav
+            aria-label="Primary navigation menu"
+            className="my-auto py-8 divide-y divide-[var(--line)] border-b border-[var(--line)]"
+          >
+            {MENU_ITEMS.map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: 0.15 + index * 0.04,
+                  duration: 0.4,
+                  ease: "easeOut",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => handleNavClick(item.id)}
+                  className="group w-full py-4 md:py-6 flex items-center justify-between text-left cursor-pointer transition-all duration-300"
+                >
+                  <div className="flex items-baseline gap-4 md:gap-8">
+                    <span className="font-mono text-xs md:text-sm text-[var(--accent)] font-semibold tracking-widest">
+                      {item.num}
+                    </span>
+                    <span className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[var(--text)] group-hover:text-[var(--accent)] group-hover:translate-x-3 transition-all duration-300">
+                      {item.label}
+                    </span>
+                  </div>
+
+                  <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 text-[var(--text-dim)] group-hover:text-[var(--accent)] group-hover:rotate-45 transition-all duration-300" />
+                </button>
+              </motion.div>
+            ))}
+          </nav>
+
+          {/* Bottom Row */}
+          <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <a
+              href={`mailto:${profile.email}`}
+              className="font-mono text-xs md:text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+            >
+              {profile.email}
+            </a>
+
+            <div className="flex items-center gap-6">
+              <a
+                href={profile.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1"
+              >
+                <span>GITHUB</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href={profile.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1"
+              >
+                <span>LINKEDIN</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

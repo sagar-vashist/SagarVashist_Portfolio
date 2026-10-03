@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg: #060708;
+    --bg-elev: #0B0D10;
+    --surface: #101318;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --text: #F4F5F7;
+    --text-muted: #9AA1AB;
+    --text-dim: #646B77;
+    --accent: #5CF2C4;
+    --accent-rgb: 92, 242, 196;
+    --accent-2: #7C8CFF;
+    --accent-2-rgb: 124, 140, 255;
+    --card-glow: rgba(92, 242, 196, 0.12);
+  }
+
+  [data-theme="light"] {
+    --bg: #F6F6F2;
+    --bg-elev: #ECECE7;
+    --surface: #FFFFFF;
+    --line: rgba(0, 0, 0, 0.10);
+    --line-strong: rgba(0, 0, 0, 0.20);
+    --text: #0B0C0E;
+    --text-muted: #4B515B;
+    --text-dim: #7C8492;
+    --accent: #07866A;
+    --accent-rgb: 7, 134, 106;
+    --accent-2: #4C5BD4;
+    --accent-2-rgb: 76, 91, 212;
+    --card-glow: rgba(7, 134, 106, 0.08);
+  }
+
+  * {
+    border-color: var(--line);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    color-scheme: dark;
+    background-color: var(--bg);
+    color: var(--text);
+    scroll-behavior: auto; /* Handled smoothly by Lenis */
+    overscroll-behavior-y: none;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Accessible focus ring */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text-main: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+  --color-accent: var(--accent);
+  --color-accent-indigo: var(--accent-2);
+  --font-display: var(--font-unbounded), sans-serif;
+  --font-body: var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+/* Custom Utilities */
+.font-display {
+  font-family: var(--font-unbounded), sans-serif;
+}
+
+.font-mono-meta {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Background Film Grain Overlay */
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Ambient Indigo/Mint Glows */
+.ambient-glow {
+  pointer-events: none;
+  position: fixed;
+  border-radius: 9999px;
+  filter: blur(120px);
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.ambient-glow-1 {
+  top: -10vw;
+  right: -10vw;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(var(--accent-2-rgb), 0.12) 0%, transparent 70%);
+}
+
+.ambient-glow-2 {
+  bottom: 10vh;
+  left: -15vw;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.08) 0%, transparent 70%);
+}
+
+/* Container constraints */
+.site-container {
+  width: 100%;
+  max-width: 1360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 4vw, 4rem);
+  padding-right: clamp(1.25rem, 4vw, 4rem);
+}
+
+/* Section vertical rhythm */
+.section-padding {
+  padding-top: clamp(5rem, 12vw, 10rem);
+  padding-bottom: clamp(5rem, 12vw, 10rem);
+}
+
+/* Card base styling */
+.glass-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  position: relative;
+  transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) {
+  .glass-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 10px 30px -10px var(--card-glow);
+  }
+}
+
+/* Hairline rule */
+.hairline {
+  border-top: 1px solid var(--line);
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+    transform: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Pulse animation for signal dot */
+@keyframes signalPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.6;
+  }
+}
+
+.signal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  display: inline-block;
+  animation: signalPulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signal-dot {
+    animation: none;
+  }
+}
