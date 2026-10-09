@@ -102,17 +102,7 @@ export function Accordion({
                   </span>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <span
-                    className={cn(
-                      "font-mono text-xs tracking-wider px-2.5 py-0.5 rounded-full border transition-colors duration-200",
-                      isOpen
-                        ? "bg-[var(--bg-elev)] border-[var(--accent)] text-[var(--accent)] font-semibold"
-                        : "bg-[var(--surface)] border-[var(--line)] text-[var(--text-muted)] group-hover:text-[var(--text)]"
-                    )}
-                  >
-                    {item.count} items
-                  </span>
+                <div className="flex items-center shrink-0 ml-4">
                   <ChevronDown
                     className={cn(
                       "w-5 h-5 transition-transform duration-300",

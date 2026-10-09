@@ -105,17 +105,7 @@ export function Services() {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-3 shrink-0 ml-4">
-                        <span
-                          className={cn(
-                            "hidden sm:inline-block font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full border transition-colors duration-200",
-                            isOpen
-                              ? "bg-[var(--bg-elev)] border-[var(--accent)] text-[var(--accent)] font-semibold"
-                              : "bg-[var(--surface)] border-[var(--line)] text-[var(--text-dim)] group-hover:text-[var(--text-muted)]"
-                          )}
-                        >
-                          {isOpen ? "Active" : "Explore"}
-                        </span>
+                      <div className="flex items-center shrink-0 ml-4">
                         <ChevronDown
                           className={cn(
                             "w-5 h-5 transition-transform duration-300",
