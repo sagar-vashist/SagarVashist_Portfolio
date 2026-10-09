@@ -1,180 +1,70 @@
 # Sagar Vashist — Personal Portfolio
 
-Production-ready, single-page personal portfolio website for **Sagar Vashist**, Full-Stack Developer and B.Tech Electronics & Communication Engineering student from Delhi, India.
+Live site: [https://sagarvashist.vercel.app](https://sagarvashist.vercel.app)  
+Developer: **Sagar Vashist** (Full-Stack Developer, Delhi, India)
 
-Built with an editorial engineer-portfolio aesthetic: near-black canvas with ambient glow, oversized display headlines with tight tracking, small monospace labels, numbered sections (00–06), custom circular trailing cursor, interactive dot-lattice canvas, generative project visuals, infinite tech marquee, accessible accordion toolkit, and interactive contact form with Resend integration.
-
----
-
-## 🛠 Tech Stack
-
-- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/) + [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/) (strict)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with CSS token variables (`@theme`)
-- **Animation**: [Motion](https://motion.dev/) (Framer Motion v12)
-- **Smooth Scroll**: [Lenis](https://lenis.darkroom.engineering/) (hardware-accelerated, disabled on touch/reduced-motion)
-- **Typography**: `Unbounded` (display), `Geist` (body), `Geist Mono` (metadata/labels) via `next/font/google`
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Form Validation**: [Zod](https://zod.dev/)
-- **Email Delivery**: [Resend](https://resend.com/) with graceful mailto fallback
-- **Deployment**: [Vercel](https://vercel.com/)
+A fast, responsive single-page portfolio built with Next.js 15, React 19, and Tailwind CSS v4 to showcase production web apps, engineering projects, and technical skills.
 
 ---
 
-## 🚀 Getting Started
+### Tech Stack & Services
 
-### Prerequisites
+- **Frontend & Framework**: Next.js 15 (App Router), React 19, TypeScript
+- **Styling**: Tailwind CSS v4 with custom dark/light theme CSS variables
+- **Animations & Interaction**: Motion (`motion/react`), Lenis smooth scrolling
+- **Email & Forms**: EmailJS (`@emailjs/browser`) with client-side Zod validation
+- **Icons & Typography**: Lucide React, Geist & Unbounded fonts
+- **Hosting & CI/CD**: Vercel
 
-- Node.js 18+ (tested on Node v22)
-- `pnpm` (or `npm`)
+---
 
-### Installation
+### Key Features
+
+- **Single-page navigation**: Smooth section scrolling with quick-access desktop header and full-screen mobile drawer.
+- **Dark & Light mode**: System-aware theme toggle with instant CSS variable switching and high-contrast readability.
+- **Generative project visuals**: Interactive canvas and SVG components tailored to each project (Kanban board, ECG/PPG cardiac monitor, geocoded map, and audio waveform).
+- **Interactive accordions**: Clean collapsible lists for Services and Tech Stack categories.
+- **Spam-protected contact form**: Integrated with EmailJS, Honeypot bot protection, and client-side validation.
+- **Mobile responsiveness**: Audited and tested across small Android (360px), iPhone SE, and modern iOS viewports with no horizontal overflow and 44px+ touch targets.
+- **SEO & Social Sharing**: Dynamic OpenGraph images (`/opengraph-image`), JSON-LD schema, sitemap, and robots.txt.
+
+---
+
+### Featured Projects
+
+- **OpsForge**: Full-stack software operations platform with Kanban workflows, Supabase, and PostgreSQL.
+- **CardioSync AI**: Cardiovascular risk assessment system combining hardware sensors (ECG/PPG), signal preprocessing, and explainable AI.
+- **Wanderlust**: Property listing web application featuring Node.js, Express, PostgreSQL, Prisma ORM, MapLibre geocoding, and RBAC authentication.
+- **PrepWise AI**: Speech recognition and computer vision interview analytics platform for candidate performance evaluation.
+
+---
+
+### Services Offered
+
+- **Full-Stack Web Development**: End-to-end web apps with React/Next.js and Node.js.
+- **UI/UX Implementation**: Pixel-accurate layouts, smooth animations, and clean design systems.
+- **Backend & REST APIs**: Structured databases, secure endpoints, and robust error handling.
+- **Authentication & Security**: RBAC, encrypted credentials, rate limiting, and session security.
+- **Performance & Optimization**: Core Web Vitals tuning, fast bundle loading, and TypeScript refactoring.
+
+---
+
+### Quick Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/sagar-vashist/portfolio.git
-cd Sagar_Personal_Portfolio
+# 1. Clone repository
+git clone https://github.com/sagar-vashist/SagarVashist_Portfolio.git
+cd SagarVashist_Portfolio
 
-# Install dependencies
+# 2. Install dependencies
 pnpm install
-```
 
-### Environment Variables
-
-Copy `.env.example` to `.env.local` and set your credentials:
-
-```bash
+# 3. Configure environment variables
 cp .env.example .env.local
-```
+# Add your EmailJS keys (SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY) to .env.local
 
-```env
-# Resend API key for contact form delivery
-RESEND_API_KEY=re_your_api_key_here
-
-# Delivery address
-CONTACT_TO_EMAIL=sagarvashist02@gmail.com
-
-# Verified sender in Resend
-CONTACT_FROM_EMAIL=Portfolio Contact <onboarding@resend.dev>
-
-# Production canonical domain
-NEXT_PUBLIC_SITE_URL=https://sagarvashist.dev
-```
-
-> **Note**: If `RESEND_API_KEY` is omitted, the contact form gracefully degrades by presenting an interactive prompt and pre-filled email client fallback button (`mailto:`).
-
-### Development Server
-
-```bash
+# 4. Start local dev server
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## 📜 Available Scripts
-
-| Script | Command | Description |
-| :--- | :--- | :--- |
-| `dev` | `pnpm dev` | Starts local Next.js development server |
-| `build` | `pnpm build` | Builds optimized production bundle |
-| `start` | `pnpm start` | Runs the production build locally |
-| `lint` | `pnpm lint` | Runs ESLint analysis |
-| `typecheck` | `pnpm typecheck` | Runs strict TypeScript verification (`tsc --noEmit`) |
-
----
-
-## 📁 Source Architecture
-
-```
-src/
-├── app/
-│   ├── api/contact/route.ts    # POST endpoint with rate limit & Resend mailer
-│   ├── layout.tsx              # Fonts, theme script, JSON-LD Person schema, landmarks
-│   ├── page.tsx                # Single-page composer (00–06 sections)
-│   ├── opengraph-image.tsx     # Dynamic 1200×630 OG social banner
-│   ├── sitemap.ts              # XML sitemap generator
-│   ├── robots.ts               # Web crawler directive
-│   ├── manifest.ts             # PWA web manifest
-│   ├── not-found.tsx           # Custom 404 handler
-│   └── error.tsx               # Client error boundary
-├── components/
-│   ├── cursor/CustomCursor.tsx # Spring-physics custom cursor (fine pointers only)
-│   ├── intro/IntroSplash.tsx   # Once-per-session skippable SV monogram wipe
-│   ├── layout/                 # Header, MenuOverlay, SectionRail, ScrollProgress, Footer, ThemeToggle, SkipLink
-│   ├── sections/               # Hero (00), About (01), Work (02), Stack (03), Experience (04), Learning (05), Contact (06)
-│   ├── ui/                     # Button, MagneticButton, Chip, Card, SectionHeader, Reveal, SplitLines, Accordion, Marquee, CountUp, Toast, Tooltip
-│   └── visuals/                # DotLattice, KanbanVisual, MapVisual, WaveformVisual, Monogram
-├── data/                       # Source of truth: profile, projects, experience, education, certifications, skills
-├── hooks/                      # useLenis, useActiveSection, useReducedMotion, useIsTouch, useInView, useMediaQuery
-├── lib/                        # utils, seo, rate-limit, validators
-└── styles/                     # globals.css (design tokens, animations, layer overrides)
-```
-
----
-
-## ✏️ Customization & Adding Data
-
-All content is driven by strongly-typed data files in `src/data/`:
-
-### 1. Adding Project Live URLs and GitHub Links
-In `src/data/projects.ts`, simply fill in `liveUrl` and `githubUrl`:
-```ts
-{
-  slug: "opsforge",
-  // ...
-  liveUrl: "https://opsforge.example.com", // Button automatically appears!
-  githubUrl: "https://github.com/sagar-vashist/opsforge", // Button automatically appears!
-}
-```
-If either field is left as `""`, the corresponding button **gracefully hides**.
-
-### 2. Adding Custom Project Screenshots
-Place your screenshot inside `/public/images/projects/opsforge.png` and update:
-```ts
-image: "/images/projects/opsforge.png"
-```
-When `image` is empty (`""`), the project renders its custom generative visual instead (Kanban, Map, or Waveform).
-
-### 3. Adding a Profile Photo
-Place your photo in `/public/images/sagar.jpg` and update `src/data/profile.ts`:
-```ts
-photo: "/images/sagar.jpg"
-```
-When empty (`""`), the About section displays the generative monogram card ("SV").
-
-### 4. Updating Availability Status
-Change `availability` in `src/data/profile.ts`:
-```ts
-availability: "OPEN TO OPPORTUNITIES"
-```
-The header status pill and hero metadata will update immediately.
-
----
-
-## 🚢 Deploying to Vercel
-
-1. Push your code to a GitHub repository:
-   ```bash
-   git add .
-   git commit -m "feat: initial commit for Sagar Vashist personal portfolio"
-   git push origin main
-   ```
-2. Log into [Vercel](https://vercel.com/) and click **Add New > Project**.
-3. Import the repository.
-4. Add environment variables in the Vercel dashboard:
-   - `RESEND_API_KEY`
-   - `CONTACT_TO_EMAIL`
-   - `CONTACT_FROM_EMAIL`
-   - `NEXT_PUBLIC_SITE_URL`
-5. Click **Deploy**. Vercel will automatically build and deploy the Next.js application.
-
----
-
-## ♿ Accessibility & Performance Standards
-
-- **WCAG 2.2 AA Compliant**: All color combinations exceed 4.5:1 contrast in both dark and light modes.
-- **Keyboard Navigation**: Full keyboard operability with custom mint `:focus-visible` ring.
-- **Reduced Motion**: Full fallback across animations, marquee, canvas, and smooth scroll under `prefers-reduced-motion: reduce`.
-- **Mobile First**: Fluid clamping from 320px up to 2560px with touch target sizing >= 44×44px.
-- **Zero Layout Shift (CLS)**: Self-hosted Google Fonts via `next/font` with `font-display: swap`.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
