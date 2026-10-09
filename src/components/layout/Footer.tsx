@@ -14,7 +14,7 @@ export function Footer() {
         {/* Bhagavad Gita Inspirational Slogan */}
         <div className="w-full text-center flex flex-col items-center justify-center gap-3 py-2">
           <blockquote className="max-w-3xl mx-auto px-4 text-center">
-            <p className="text-white text-lg sm:text-xl md:text-2xl font-medium tracking-tight leading-relaxed text-center">
+            <p className="text-[var(--text)] text-lg sm:text-xl md:text-2xl font-medium tracking-tight leading-relaxed text-center">
               <span className="block">
                 “You are what you believe in. You become that which you believe
               </span>
@@ -60,7 +60,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-6 border-t border-[var(--line)] text-center md:text-left">
           <p className="font-mono text-xs text-[var(--text-muted)]">
             Developed by{" "}
-            <span className="text-white font-semibold tracking-wide">
+            <span className="text-[var(--text)] font-semibold tracking-wide">
               Sagar Vashist
             </span>{" "}
             © {currentYear}. All rights reserved.
