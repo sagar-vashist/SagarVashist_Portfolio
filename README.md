@@ -67,4 +67,4 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+Open https://sagarvashist.vercel.app/ to view the site.
