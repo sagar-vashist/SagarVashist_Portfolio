@@ -7,7 +7,7 @@ export const siteConfig = {
   title: "Sagar Vashist — Full-Stack Developer | Next.js, React, Node.js",
   description:
     "Portfolio of Sagar Vashist, a full-stack developer and B.Tech ECE student in Delhi building production web apps with Next.js, React, Node.js, TypeScript and PostgreSQL.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sagarvashist.dev",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://sagarvashist.vercel.app",
   ogImage: "/opengraph-image",
   availability: profile.availability,
 };

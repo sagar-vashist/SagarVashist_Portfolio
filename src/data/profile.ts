@@ -41,7 +41,7 @@ export const profile: Profile = {
   links: {
     github: "https://github.com/sagar-vashist",
     linkedin: "https://www.linkedin.com/in/sagar-vashist-50841a244",
-    website: "https://sagarvashist.dev",
+    website: "https://sagarvashist.vercel.app",
     resume: "/Sagar_Vashist_Resume.pdf",
   },
   summary: {

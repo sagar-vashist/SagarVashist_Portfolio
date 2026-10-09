@@ -117,7 +117,7 @@ export default async function Image() {
               textTransform: "uppercase",
             }}
           >
-            SAGARVASHIST.DEV
+            SAGARVASHIST.VERCEL.APP
           </span>
         </div>
       </div>
