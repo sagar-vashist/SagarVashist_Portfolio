@@ -65,7 +65,7 @@ export function Monogram({
       </div>
 
       <div className="absolute bottom-4 right-4 font-mono text-[9px] uppercase tracking-widest text-[var(--text-dim)]">
-        VER. 2027 // ECE
+        VER. 2027 // B.TECH
       </div>
     </div>
   );

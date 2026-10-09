@@ -106,7 +106,7 @@ export default async function Image() {
               textTransform: "uppercase",
             }}
           >
-            DELHI, INDIA • B.TECH ECE
+            DELHI, INDIA • B.TECH &apos;27
           </span>
           <span
             style={{

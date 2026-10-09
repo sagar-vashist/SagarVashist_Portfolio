@@ -18,6 +18,7 @@ export interface Profile {
   summary: {
     paragraph1: string;
     paragraph2: string;
+    paragraph3?: string;
   };
   facts: {
     label: string;
@@ -28,26 +29,28 @@ export interface Profile {
 export const profile: Profile = {
   name: "Sagar Vashist",
   role: "Full-Stack Developer",
-  headline: "Building full-stack products, end to end.",
+  headline: "I build products that live between code, scale & intelligence.",
   subHeadline:
-    "Next.js, React, Node.js, TypeScript and PostgreSQL — with authentication, role-based access control and cloud deployment built in.",
+    "I build scalable web applications, AI-powered products and real-time systems with modern JavaScript, TypeScript and cloud tooling.",
   location: "Delhi, India",
-  educationShort: "B.Tech ECE '27",
+  educationShort: "B.Tech '27",
   availability: "OPEN TO OPPORTUNITIES",
   email: "sagarvashist02@gmail.com",
   phone: "+91 8595407590",
   photo: "", // Optional profile image path; displays generative monogram card when empty
   links: {
     github: "https://github.com/sagar-vashist",
-    linkedin: "https://linkedin.com/in/sagar-vashist",
+    linkedin: "https://www.linkedin.com/in/sagar-vashist-50841a244",
     website: "https://sagarvashist.dev",
     resume: "/Sagar_Vashist_Resume.pdf",
   },
   summary: {
     paragraph1:
-      "I'm a full-stack developer and B.Tech Electronics & Communication Engineering student working in JavaScript, TypeScript, Python and C++. I build production web applications with Next.js, React, Node.js, Express.js, PostgreSQL and REST API design.",
+      "I turn real problems into reliable software solutions, building full-stack products that work well from the database to the interface. Currently sharpening my DSA fundamentals and stepping into AI/ML.",
     paragraph2:
-      "My work centers on shipping complete platforms — authentication, role-based access control, databases and cloud deployment — and I'm building depth in AI and machine learning alongside it.",
+      "My day-to-day stack is JavaScript, TypeScript, Python and C++, with Next.js, React, Node.js, Express.js and PostgreSQL powering the applications I build. I focus on shipping complete platforms: secure authentication, role-based access control, well-structured databases, clean REST APIs and cloud deployment.",
+    paragraph3:
+      "I enjoy owning the whole journey of a product: understanding the problem, designing the solution, then building, deploying and refining it. I'm drawn to software engineering, backend systems and AI-powered applications, and I'm always looking for challenging projects where I can learn fast and build something that makes a real difference.",
   },
   facts: [
     { label: "BASED IN", value: "Delhi, India" },

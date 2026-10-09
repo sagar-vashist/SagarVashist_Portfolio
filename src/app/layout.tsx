@@ -3,7 +3,6 @@ import { Unbounded, Geist, Geist_Mono } from "next/font/google";
 import { siteConfig, getPersonJsonLd } from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SectionRail } from "@/components/layout/SectionRail";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { IntroSplash } from "@/components/intro/IntroSplash";
@@ -32,10 +31,8 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#060708" },
-    { media: "(prefers-color-scheme: light)", color: "#F6F6F2" },
-  ],
+  themeColor: "#060708",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -103,10 +100,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${unbounded.variable} ${geistSans.variable} ${geistMono.variable}`}
+      className={`dark ${unbounded.variable} ${geistSans.variable} ${geistMono.variable}`}
     >
       <head>
-        {/* Anti-flash theme inline script */}
+        {/* Anti-flash theme inline script: default dark everywhere */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -114,8 +111,12 @@ export default function RootLayout({
                 const storedTheme = localStorage.getItem('theme');
                 if (storedTheme === 'light') {
                   document.documentElement.setAttribute('data-theme', 'light');
+                  document.documentElement.classList.remove('dark');
+                  document.documentElement.style.colorScheme = 'light';
                 } else {
                   document.documentElement.removeAttribute('data-theme');
+                  document.documentElement.classList.add('dark');
+                  document.documentElement.style.colorScheme = 'dark';
                 }
               } catch (_) {}
             `,
@@ -146,9 +147,6 @@ export default function RootLayout({
 
         {/* Global Navigation Header */}
         <Header />
-
-        {/* Desktop Vertical Section Navigation Rail */}
-        <SectionRail />
 
         {/* Fine-pointer Custom Cursor */}
         <CustomCursor />

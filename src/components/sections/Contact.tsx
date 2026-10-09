@@ -18,6 +18,7 @@ import { Toast } from "@/components/ui/Toast";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { contactSchema, ContactFormData } from "@/lib/validators";
+import emailjs from "@emailjs/browser";
 
 export function Contact() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -89,25 +90,51 @@ export function Contact() {
       return;
     }
 
+    // Honeypot check (silently drop bot submissions)
+    if (formData.honeypot && formData.honeypot.length > 0) {
+      setStatus("success");
+      setStatusMessage("Thank you! Your message has been sent successfully.");
+      setFormData({ name: "", email: "", message: "", honeypot: "" });
+      return;
+    }
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus("error");
+      setStatusMessage(
+        "EmailJS is not configured with keys yet. Please provide your Service ID, Template ID, and Public Key."
+      );
+      return;
+    }
+
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to send message.");
-      }
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: formData.name,
+          from_name: formData.name,
+          email: formData.email,
+          from_email: formData.email,
+          reply_to: formData.email,
+          message: formData.message,
+          to_name: "Sagar Vashist",
+        },
+        publicKey
+      );
 
       setStatus("success");
       setStatusMessage("Thank you! Your message has been sent successfully.");
       setFormData({ name: "", email: "", message: "", honeypot: "" });
     } catch (err: unknown) {
       setStatus("error");
-      const msg = err instanceof Error ? err.message : "Unable to deliver message at this time.";
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Unable to deliver message at this time. Please try again or use direct email.";
       setStatusMessage(msg);
     }
   };
@@ -238,7 +265,7 @@ export function Contact() {
                   className="flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-full border border-[var(--line)] bg-[var(--surface)] hover:border-[var(--accent)] hover:text-[var(--accent)] font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] transition-colors"
                 >
                   <FileText className="w-4 h-4" />
-                  <span>Résumé (PDF)</span>
+                  <span>Resume (PDF)</span>
                   <ExternalLink className="w-3 h-3 opacity-60" />
                 </a>
 

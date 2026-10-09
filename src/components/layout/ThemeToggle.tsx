@@ -18,9 +18,11 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
     if (storedTheme === "light") {
       setTheme("light");
       document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.classList.remove("dark");
     } else {
       setTheme("dark");
       document.documentElement.removeAttribute("data-theme");
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
@@ -30,9 +32,11 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
 
     if (nextTheme === "light") {
       document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     } else {
       document.documentElement.removeAttribute("data-theme");
+      document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     }
   };

@@ -9,7 +9,7 @@ export interface Project {
   liveUrl: string; // Empty string: button gracefully hides
   githubUrl: string; // Empty string: button gracefully hides
   image: string; // Empty string: displays generative visual instead
-  visual: "kanban" | "map" | "waveform";
+  visual: "kanban" | "map" | "waveform" | "cardio";
 }
 
 // TODO: add liveUrl / githubUrl per project — buttons auto-appear when set
@@ -27,14 +27,37 @@ export const projects: Project[] = [
       "Deployed a responsive, production-ready UI on Vercel with end-to-end database integration.",
     ],
     tech: ["Next.js", "React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-    liveUrl: "",
-    githubUrl: "",
+    liveUrl: "https://ops-forge-gamma.vercel.app",
+    githubUrl: "https://github.com/sagar-vashist/OpsForge",
     image: "",
     visual: "kanban",
   },
   {
-    slug: "wanderlust",
+    slug: "cardiosync-ai",
     index: "02",
+    category: "AI / ML • Healthcare",
+    title: "CardioSync — Multi-Sensor AI Health System",
+    descriptor:
+      "AI-powered cardiovascular risk assessment system integrating multi-sensor physiological data, embedded hardware, and machine learning.",
+    bullets: [
+      "Integrated ECG and PPG sensors with a software pipeline for physiological data acquisition, preprocessing, analysis, and cardiovascular risk assessment.",
+      "Developed an AI/ML prediction pipeline with real-time visualization and Explainable AI (XAI) to analyze physiological patterns and provide interpretable cardiovascular risk insights.",
+    ],
+    tech: [
+      "ECG & PPG",
+      "AI/ML",
+      "Risk Prediction",
+      "Explainable AI",
+      "Hardware Integration",
+    ],
+    liveUrl: "",
+    githubUrl: "https://github.com/sagar-vashist/CardioSync-AI",
+    image: "",
+    visual: "cardio",
+  },
+  {
+    slug: "wanderlust",
+    index: "03",
     category: "Full-Stack Web App",
     title: "Wanderlust — Full-Stack Property Listing Platform",
     descriptor:
@@ -58,14 +81,14 @@ export const projects: Project[] = [
       "Helmet",
       "Vercel",
     ],
-    liveUrl: "",
-    githubUrl: "",
+    liveUrl: "https://wanderlust-fawn-theta.vercel.app/listings",
+    githubUrl: "https://github.com/sagar-vashist/Wanderlust",
     image: "",
     visual: "map",
   },
   {
     slug: "prepwise-ai",
-    index: "03",
+    index: "04",
     category: "AI / ML Analytics",
     title: "PrepWise AI — Intelligent Interview Analysis Platform",
     descriptor:
@@ -81,7 +104,7 @@ export const projects: Project[] = [
       "Eye-contact detection",
     ],
     liveUrl: "",
-    githubUrl: "",
+    githubUrl: "https://github.com/sagar-vashist/AI-interview",
     image: "",
     visual: "waveform",
   },

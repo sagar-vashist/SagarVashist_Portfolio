@@ -17,10 +17,11 @@ const MENU_ITEMS = [
   { id: "index", label: "Index", num: "00" },
   { id: "about", label: "About", num: "01" },
   { id: "work", label: "Work", num: "02" },
-  { id: "stack", label: "Stack", num: "03" },
-  { id: "experience", label: "Experience", num: "04" },
-  { id: "learning", label: "Learning", num: "05" },
-  { id: "contact", label: "Contact", num: "06" },
+  { id: "services", label: "Services", num: "03" },
+  { id: "stack", label: "Stack", num: "04" },
+  { id: "experience", label: "Experience", num: "05" },
+  { id: "learning", label: "Learning", num: "06" },
+  { id: "contact", label: "Contact", num: "07" },
 ];
 
 export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
@@ -114,101 +115,105 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
                   transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
                 }
           }
-          className="fixed inset-0 z-[150] h-[100dvh] w-full bg-[var(--bg)]/98 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 md:p-16 overflow-y-auto"
+          className="fixed inset-0 z-[150] h-[100dvh] w-full bg-[var(--bg)]/98 backdrop-blur-2xl overflow-y-auto overscroll-contain"
+          data-lenis-prevent
+          style={{ WebkitOverflowScrolling: "touch" }}
         >
-          {/* Top Bar with Wordmark and Close Button */}
-          <div className="flex items-center justify-between border-b border-[var(--line)] pb-6">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs uppercase tracking-widest text-[var(--accent)]">
-                NAVIGATION
-              </span>
-              <span className="h-1 w-1 rounded-full bg-[var(--text-dim)]" />
-              <span className="font-mono text-xs text-[var(--text-muted)]">
-                SAGAR VASHIST
-              </span>
+          <div className="min-h-full flex flex-col justify-between p-5 sm:p-6 md:px-12 md:py-6 max-w-7xl mx-auto w-full">
+            {/* Top Bar with Wordmark and Close Button */}
+            <div className="flex items-center justify-between border-b border-[var(--line)] pb-3 md:pb-4 shrink-0">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">
+                  NAVIGATION
+                </span>
+                <span className="h-1 w-1 rounded-full bg-[var(--text-dim)]" />
+                <span className="font-mono text-xs text-[var(--text-muted)]">
+                  SAGAR VASHIST
+                </span>
+              </div>
+
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={() => {
+                  onClose();
+                  triggerRef.current?.focus();
+                }}
+                aria-label="Close navigation menu"
+                className="flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-full border border-[var(--line)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-colors cursor-pointer"
+              >
+                <span className="font-mono text-xs uppercase tracking-widest font-semibold">
+                  CLOSE
+                </span>
+                <X className="w-4 h-4 text-[var(--accent)]" />
+              </button>
             </div>
 
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={() => {
-                onClose();
-                triggerRef.current?.focus();
-              }}
-              aria-label="Close navigation menu"
-              className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--line)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-colors cursor-pointer"
+            {/* Navigation Links List */}
+            <nav
+              aria-label="Primary navigation menu"
+              className="my-auto py-2 sm:py-3 divide-y divide-[var(--line)] border-b border-[var(--line)]"
             >
-              <span className="font-mono text-xs uppercase tracking-widest">
-                CLOSE
-              </span>
-              <X className="w-4 h-4 text-[var(--accent)]" />
-            </button>
-          </div>
-
-          {/* Navigation Links List */}
-          <nav
-            aria-label="Primary navigation menu"
-            className="my-auto py-8 divide-y divide-[var(--line)] border-b border-[var(--line)]"
-          >
-            {MENU_ITEMS.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  delay: 0.15 + index * 0.04,
-                  duration: 0.4,
-                  ease: "easeOut",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => handleNavClick(item.id)}
-                  className="group w-full py-4 md:py-6 flex items-center justify-between text-left cursor-pointer transition-all duration-300"
+              {MENU_ITEMS.map((item, index) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    delay: 0.12 + index * 0.035,
+                    duration: 0.35,
+                    ease: "easeOut",
+                  }}
                 >
-                  <div className="flex items-baseline gap-4 md:gap-8">
-                    <span className="font-mono text-xs md:text-sm text-[var(--accent)] font-semibold tracking-widest">
-                      {item.num}
-                    </span>
-                    <span className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[var(--text)] group-hover:text-[var(--accent)] group-hover:translate-x-3 transition-all duration-300">
-                      {item.label}
-                    </span>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick(item.id)}
+                    className="group w-full py-2 sm:py-2.5 md:py-3 flex items-center justify-between text-left cursor-pointer transition-all duration-200"
+                  >
+                    <div className="flex items-baseline gap-4 md:gap-8">
+                      <span className="font-mono text-xs md:text-sm text-[var(--accent)] font-semibold tracking-widest">
+                        {item.num}
+                      </span>
+                      <span className="font-display text-xl sm:text-2xl md:text-3xl lg:text-[34px] xl:text-[38px] font-bold tracking-tight text-[var(--text)] group-hover:text-[var(--accent)] group-hover:translate-x-3 transition-all duration-200 leading-tight">
+                        {item.label}
+                      </span>
+                    </div>
 
-                  <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 text-[var(--text-dim)] group-hover:text-[var(--accent)] group-hover:rotate-45 transition-all duration-300" />
-                </button>
-              </motion.div>
-            ))}
-          </nav>
+                    <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-[var(--text-dim)] group-hover:text-[var(--accent)] group-hover:rotate-45 transition-all duration-200 shrink-0" />
+                  </button>
+                </motion.div>
+              ))}
+            </nav>
 
-          {/* Bottom Row */}
-          <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <a
-              href={`mailto:${profile.email}`}
-              className="font-mono text-xs md:text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
-            >
-              {profile.email}
-            </a>
-
-            <div className="flex items-center gap-6">
+            {/* Bottom Row */}
+            <div className="pt-3 md:pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shrink-0">
               <a
-                href={profile.links.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1"
+                href={`mailto:${profile.email}`}
+                className="font-mono text-xs md:text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
               >
-                <span>GITHUB</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
+                {profile.email}
               </a>
-              <a
-                href={profile.links.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1"
-              >
-                <span>LINKEDIN</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
+
+              <div className="flex items-center gap-6">
+                <a
+                  href={profile.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1 min-h-[44px]"
+                >
+                  <span>GITHUB</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href={profile.links.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1 min-h-[44px]"
+                >
+                  <span>LINKEDIN</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         </motion.div>

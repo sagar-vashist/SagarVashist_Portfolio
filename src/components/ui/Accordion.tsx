@@ -18,12 +18,14 @@ interface AccordionProps {
   items: AccordionItemData[];
   defaultOpenId?: string;
   className?: string;
+  expandOnHover?: boolean;
 }
 
 export function Accordion({
   items,
   defaultOpenId,
   className = "",
+  expandOnHover = true,
 }: AccordionProps) {
   const [openId, setOpenId] = useState<string | null>(
     defaultOpenId ?? (items.length > 0 ? items[0].id : null)
@@ -34,6 +36,12 @@ export function Accordion({
     setOpenId((prev) => (prev === id ? null : id));
   };
 
+  const handleHover = (id: string) => {
+    if (expandOnHover) {
+      setOpenId(id);
+    }
+  };
+
   return (
     <div className={cn("divide-y divide-[var(--line)] border-y border-[var(--line)]", className)}>
       {items.map((item) => {
@@ -42,7 +50,22 @@ export function Accordion({
         const panelId = `accordion-panel-${item.id}`;
 
         return (
-          <div key={item.id} className="group transition-colors duration-200">
+          <div
+            key={item.id}
+            onMouseEnter={() => handleHover(item.id)}
+            className={cn(
+              "group relative transition-all duration-300",
+              isOpen ? "bg-[var(--surface)]/30" : "hover:bg-[var(--surface)]/10"
+            )}
+          >
+            {/* Left accent indicator line on active */}
+            <div
+              className={cn(
+                "absolute left-0 top-0 bottom-0 w-[2px] transition-all duration-300",
+                isOpen ? "bg-[var(--accent)] opacity-100" : "bg-transparent opacity-0"
+              )}
+            />
+
             <h3>
               <button
                 id={triggerId}
@@ -50,29 +73,50 @@ export function Accordion({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => toggle(item.id)}
+                onFocus={() => handleHover(item.id)}
                 className={cn(
-                  "w-full py-6 md:py-8 flex items-center justify-between text-left cursor-pointer",
-                  "transition-colors duration-200",
-                  "hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+                  "w-full py-6 md:py-8 px-4 sm:px-6 flex items-center justify-between text-left cursor-pointer",
+                  "transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
                 )}
               >
                 <div className="flex items-center gap-4 md:gap-8">
-                  <span className="font-mono text-xs text-[var(--accent)] font-semibold tracking-[0.14em]">
+                  <span
+                    className={cn(
+                      "font-mono text-xs font-semibold tracking-[0.14em] transition-colors duration-200",
+                      isOpen
+                        ? "text-[var(--accent)]"
+                        : "text-[var(--text-dim)] group-hover:text-[var(--accent)]"
+                    )}
+                  >
                     {item.index}
                   </span>
-                  <span className="font-display text-xl md:text-2xl font-bold tracking-tight text-[var(--text)] group-hover:text-[var(--accent)] transition-colors">
+                  <span
+                    className={cn(
+                      "font-display text-xl md:text-2xl font-bold tracking-tight transition-colors duration-200",
+                      isOpen
+                        ? "text-[var(--text)]"
+                        : "text-[var(--text-muted)] group-hover:text-[var(--text)]"
+                    )}
+                  >
                     {item.title}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <span className="font-mono text-xs text-[var(--text-muted)] tracking-wider px-2 py-0.5 rounded-full bg-[var(--surface)] border border-[var(--line)]">
+                  <span
+                    className={cn(
+                      "font-mono text-xs tracking-wider px-2.5 py-0.5 rounded-full border transition-colors duration-200",
+                      isOpen
+                        ? "bg-[var(--bg-elev)] border-[var(--accent)] text-[var(--accent)] font-semibold"
+                        : "bg-[var(--surface)] border-[var(--line)] text-[var(--text-muted)] group-hover:text-[var(--text)]"
+                    )}
+                  >
                     {item.count} items
                   </span>
                   <ChevronDown
                     className={cn(
-                      "w-5 h-5 text-[var(--text-muted)] transition-transform duration-300",
-                      isOpen && "rotate-180 text-[var(--accent)]"
+                      "w-5 h-5 transition-transform duration-300",
+                      isOpen ? "rotate-180 text-[var(--accent)]" : "text-[var(--text-muted)] group-hover:text-[var(--text)]"
                     )}
                     aria-hidden="true"
                   />
@@ -113,7 +157,7 @@ export function Accordion({
                   }
                   className="overflow-hidden"
                 >
-                  <div className="pb-8 pt-2">{item.content}</div>
+                  <div className="pb-8 pt-2 px-4 sm:px-6">{item.content}</div>
                 </motion.div>
               )}
             </AnimatePresence>

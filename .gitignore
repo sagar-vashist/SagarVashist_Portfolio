@@ -25,3 +25,6 @@
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Scripts & Test Artifacts
+/scripts/

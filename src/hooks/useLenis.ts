@@ -46,10 +46,14 @@ export function useLenis() {
     };
   }, [reducedMotion, isTouch]);
 
-  const scrollTo = (target: string | HTMLElement, offset = 0) => {
+  const scrollTo = (target: string | number | HTMLElement, offset = 0) => {
     if (lenisRef.current) {
       lenisRef.current.scrollTo(target, { offset });
     } else {
+      if (typeof target === "number") {
+        window.scrollTo({ top: target, behavior: "smooth" });
+        return;
+      }
       const el =
         typeof target === "string" ? document.querySelector(target) : target;
       if (el) {

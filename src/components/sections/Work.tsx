@@ -7,6 +7,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
 import { KanbanVisual } from "@/components/visuals/KanbanVisual";
+import { CardioVisual } from "@/components/visuals/CardioVisual";
 import { MapVisual } from "@/components/visuals/MapVisual";
 import { WaveformVisual } from "@/components/visuals/WaveformVisual";
 import { formatMonoIndex } from "@/lib/utils";
@@ -14,7 +15,11 @@ import { formatMonoIndex } from "@/lib/utils";
 export function Work() {
   const projectCountLabel = `${formatMonoIndex(projects.length)} PROJECTS`;
 
-  const renderVisual = (visual: "kanban" | "map" | "waveform", image: string, title: string) => {
+  const renderVisual = (
+    visual: "kanban" | "map" | "waveform" | "cardio",
+    image: string,
+    title: string
+  ) => {
     if (image && image.trim() !== "") {
       return (
         <div className="relative w-full h-full min-h-[260px] md:min-h-[340px] rounded-2xl overflow-hidden border border-[var(--line)]">
@@ -32,6 +37,8 @@ export function Work() {
     switch (visual) {
       case "kanban":
         return <KanbanVisual />;
+      case "cardio":
+        return <CardioVisual />;
       case "map":
         return <MapVisual />;
       case "waveform":
@@ -74,13 +81,46 @@ export function Work() {
                 >
                   {/* Visual Side (Left on even, Right on odd on >=1024px) */}
                   <div
-                    className={`lg:col-span-6 w-full ${
+                    className={`lg:col-span-6 w-full flex flex-col gap-4 ${
                       isReversed ? "lg:order-2" : "lg:order-1"
                     }`}
                   >
                     <Reveal delay={0.1}>
                       {renderVisual(project.visual, project.image, project.title)}
                     </Reveal>
+
+                    {/* Action Links Below Project Animation Card */}
+                    {(project.liveUrl || project.githubUrl) && (
+                      <Reveal delay={0.15}>
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          {project.liveUrl && (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${project.title} — live demo (opens in new tab)`}
+                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider bg-[var(--accent)] text-[#060708] font-bold hover:brightness-110 shadow-sm transition-all cursor-pointer min-h-[44px]"
+                            >
+                              <span>Live Demo</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </a>
+                          )}
+
+                          {project.githubUrl && (
+                            <a
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${project.title} — view code on GitHub (opens in new tab)`}
+                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider bg-[var(--surface)] text-[var(--text)] border border-[var(--line-strong)] hover:border-[var(--accent)] hover:text-[var(--accent)] shadow-sm transition-all cursor-pointer min-h-[44px]"
+                            >
+                              <GithubIcon className="w-4 h-4" />
+                              <span>GitHub</span>
+                            </a>
+                          )}
+                        </div>
+                      </Reveal>
+                    )}
                   </div>
 
                   {/* Information & Details Side */}
@@ -130,39 +170,6 @@ export function Work() {
                         ))}
                       </div>
                     </Reveal>
-
-                    {/* Action Links (Rendered ONLY if URLs are non-empty) */}
-                    {(project.liveUrl || project.githubUrl) && (
-                      <Reveal delay={0.3}>
-                        <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-[var(--line)]">
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`${project.title} — live demo (opens in new tab)`}
-                              className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs uppercase tracking-wider bg-[var(--accent)] text-[#060708] font-bold hover:brightness-110 transition-all cursor-pointer min-h-[44px]"
-                            >
-                              <span>Live demo</span>
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </a>
-                          )}
-
-                          {project.githubUrl && (
-                            <a
-                              href={project.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`${project.title} — view code on GitHub (opens in new tab)`}
-                              className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs uppercase tracking-wider bg-[var(--surface)] text-[var(--text)] border border-[var(--line-strong)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all cursor-pointer min-h-[44px]"
-                            >
-                              <GithubIcon className="w-3.5 h-3.5" />
-                              <span>GitHub</span>
-                            </a>
-                          )}
-                        </div>
-                      </Reveal>
-                    )}
                   </div>
                 </div>
               </article>

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ArrowDown, Download, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Download, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { profile } from "@/data/profile";
 import { allTechSkills } from "@/data/skills";
@@ -19,7 +19,7 @@ export function Hero() {
     <section
       id="index"
       aria-label="Introduction and Overview"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between pt-28 md:pt-36 pb-0 overflow-hidden"
+      className="relative min-h-[100dvh] w-full flex flex-col justify-between pt-20 sm:pt-24 md:pt-28 pb-2 sm:pb-4 overflow-hidden"
     >
       {/* Interactive Dot-Lattice Background Canvas */}
       <DotLattice />
@@ -27,42 +27,39 @@ export function Hero() {
       {/* Hero Content Container */}
       <div className="site-container relative z-10 my-auto flex flex-col justify-center">
         {/* Eyebrow Label */}
-        <div className="flex items-center gap-2 mb-6">
+        <div className="flex items-center gap-2 mb-3 sm:mb-4">
           <span className="signal-dot" aria-hidden="true" />
           <span className="font-mono text-xs md:text-sm uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
-            {profile.name} — {profile.role}
+            DM FOR FREELANCE &amp; CONTRACT PROJECTS
           </span>
         </div>
 
         {/* Display H1 Headline (Server rendered, LCP priority) */}
-        <h1 className="font-display text-[clamp(2.4rem,7.5vw+0.5rem,7.5rem)] font-bold tracking-[-0.035em] leading-[0.98] text-[var(--text)] max-w-[18ch]">
-          {profile.headline}
+        <h1 className="font-display text-[clamp(2.1rem,4.4vw,4.25rem)] font-bold tracking-[-0.03em] leading-[1.05] max-w-6xl">
+          <span className="text-[var(--text)] block">
+            I build products that live between
+          </span>
+          <span className="text-[var(--accent)] block">
+            code, scale &amp; intelligence.
+          </span>
         </h1>
 
         {/* Sub-headline */}
-        <p className="mt-6 md:mt-8 text-base md:text-xl text-[var(--text-muted)] max-w-[62ch] leading-relaxed">
-          {profile.subHeadline}
+        <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-[var(--text-muted)] max-w-4xl leading-relaxed">
+          <span className="block">
+            I build scalable web applications, AI-powered products and real-time systems
+          </span>
+          <span className="block">
+            with modern JavaScript, TypeScript and cloud tooling.
+          </span>
         </p>
 
-        {/* Meta Metadata Row */}
-        <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-6 font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
-          <span className="text-[var(--text)] font-medium">
-            {profile.location}
-          </span>
-          <span className="h-1 w-1 rounded-full bg-[var(--line-strong)]" />
-          <span>{profile.educationShort}</span>
-          <span className="h-1 w-1 rounded-full bg-[var(--line-strong)]" />
-          <span className="text-[var(--accent)] font-semibold">
-            {profile.availability}
-          </span>
-        </div>
-
         {/* CTAs and Social Links Row */}
-        <div className="mt-10 md:mt-12 flex flex-wrap items-center gap-4 sm:gap-6">
+        <div className="mt-5 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-5">
           <MagneticButton>
             <Button
               variant="primary"
-              size="lg"
+              size="md"
               onClick={() => scrollTo("#work")}
               className="group"
             >
@@ -73,11 +70,11 @@ export function Hero() {
 
           <Button
             variant="secondary"
-            size="lg"
+            size="md"
             onClick={() => window.open(profile.links.resume, "_blank")}
             icon={<Download className="w-4 h-4 text-[var(--accent)]" />}
           >
-            Download résumé
+            Download Resume
           </Button>
 
           {/* Social Icon Links */}
@@ -87,7 +84,7 @@ export function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile (opens in new tab)"
-              className="flex items-center justify-center w-11 h-11 rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--line-strong)] transition-colors cursor-pointer"
+              className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--line-strong)] transition-colors cursor-pointer"
             >
               <GithubIcon className="w-4 h-4" />
             </a>
@@ -97,7 +94,7 @@ export function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile (opens in new tab)"
-              className="flex items-center justify-center w-11 h-11 rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--line-strong)] transition-colors cursor-pointer"
+              className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--line-strong)] transition-colors cursor-pointer"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
@@ -105,16 +102,38 @@ export function Hero() {
             <a
               href={`mailto:${profile.email}`}
               aria-label="Send email"
-              className="flex items-center justify-center w-11 h-11 rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--line-strong)] transition-colors cursor-pointer"
+              className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--accent)] hover:border-[var(--line-strong)] transition-colors cursor-pointer"
             >
               <Mail className="w-4 h-4" />
             </a>
           </div>
         </div>
+
+        {/* Meta Metadata Row */}
+        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3 sm:gap-6 font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-muted)]">
+          <span className="text-[var(--text)] font-medium">
+            {profile.location}
+          </span>
+          <span className="h-1 w-1 rounded-full bg-[var(--line-strong)]" />
+          <span>{profile.educationShort}</span>
+          <span className="h-1 w-1 rounded-full bg-[var(--line-strong)]" />
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo("#contact");
+            }}
+            className="group inline-flex items-center gap-1.5 text-[var(--accent)] font-semibold hover:brightness-125 transition-all cursor-pointer underline-offset-4 hover:underline"
+            aria-label="Get in touch (scrolls to contact section)"
+          >
+            <span>GET IN TOUCH</span>
+            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
+        </div>
       </div>
 
       {/* Scroll Down Cue & Tech Marquee */}
-      <div className="relative z-10 w-full mt-12 md:mt-16">
+      <div className="relative z-10 w-full mt-6 sm:mt-8">
         <div className="site-container flex items-center justify-between pb-6">
           <button
             type="button"

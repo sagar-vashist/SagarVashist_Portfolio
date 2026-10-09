@@ -2,7 +2,6 @@
 
 import React from "react";
 import { ArrowUp } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
 import { useLenis } from "@/hooks/useLenis";
 
 export function Footer() {
@@ -11,7 +10,26 @@ export function Footer() {
 
   return (
     <footer className="w-full border-t border-[var(--line)] bg-[var(--bg)] pt-16 pb-12 overflow-hidden">
-      <div className="site-container flex flex-col gap-12 md:gap-16">
+      <div className="site-container flex flex-col gap-10 md:gap-14">
+        {/* Bhagavad Gita Inspirational Slogan */}
+        <div className="w-full text-center flex flex-col items-center justify-center gap-3 py-2">
+          <blockquote className="max-w-3xl mx-auto px-4 text-center">
+            <p className="text-white text-lg sm:text-xl md:text-2xl font-medium tracking-tight leading-relaxed text-center">
+              <span className="block">
+                “You are what you believe in. You become that which you believe
+              </span>
+              <span className="block">
+                you can become”
+              </span>
+            </p>
+          </blockquote>
+          <cite className="font-mono text-xs sm:text-sm text-[var(--text-muted)] not-italic flex items-center justify-center gap-2.5 tracking-wider">
+            <span className="w-5 sm:w-8 h-px bg-[var(--line-strong)]" />
+            <span>― Bhagavad Gita</span>
+            <span className="w-5 sm:w-8 h-px bg-[var(--line-strong)]" />
+          </cite>
+        </div>
+
         {/* Giant Outlined Wordmark */}
         <div
           className="w-full select-none overflow-hidden group cursor-default"
@@ -40,23 +58,23 @@ export function Footer() {
 
         {/* Footer Meta Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-6 border-t border-[var(--line)] text-center md:text-left">
-          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 font-mono text-xs text-[var(--text-muted)]">
-            <span>© {currentYear} Sagar Vashist</span>
-            <span className="hidden sm:inline-block text-[var(--text-dim)]">•</span>
-            <span>Built with Next.js & Tailwind CSS</span>
-          </div>
+          <p className="font-mono text-xs text-[var(--text-muted)]">
+            Developed by{" "}
+            <span className="text-white font-semibold tracking-wide">
+              Sagar Vashist
+            </span>{" "}
+            © {currentYear}. All rights reserved.
+          </p>
 
           <div className="flex items-center gap-4">
-            <ThemeToggle />
-
             {/* Back to Top Button */}
             <button
               type="button"
-              onClick={() => scrollTo("#index")}
+              onClick={() => scrollTo(0)}
               aria-label="Back to top"
-              className="flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-colors cursor-pointer text-xs font-mono uppercase tracking-wider"
+              className="flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-colors cursor-pointer text-xs font-mono uppercase tracking-wider"
             >
-              <span>TOP</span>
+              <span>BACK TO TOP</span>
               <ArrowUp className="w-3.5 h-3.5 text-[var(--accent)]" />
             </button>
           </div>

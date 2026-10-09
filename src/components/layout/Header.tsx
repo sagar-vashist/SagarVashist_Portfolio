@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { MenuOverlay } from "./MenuOverlay";
-import { siteConfig } from "@/lib/seo";
+import { useLenis } from "@/hooks/useLenis";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -12,6 +12,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+  const { scrollTo } = useLenis();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +38,14 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleBrandClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    scrollTo(0);
+    if (window.location.hash) {
+      window.history.pushState(null, "", window.location.pathname);
+    }
+  };
+
   return (
     <>
       <header
@@ -52,6 +61,7 @@ export function Header() {
           {/* Brand Wordmark & Role */}
           <a
             href="#index"
+            onClick={handleBrandClick}
             aria-label="Sagar Vashist — return to top"
             className="flex flex-col group cursor-pointer focus-visible:outline-none"
           >
@@ -63,21 +73,8 @@ export function Header() {
             </span>
           </a>
 
-          {/* Right Controls: Status Pill, Theme Toggle, Menu Button */}
+          {/* Right Controls: Theme Toggle, Menu Button */}
           <div className="flex items-center gap-3 sm:gap-4">
-            {/* Status Pill */}
-            {siteConfig.availability && (
-              <div
-                aria-label={`Status: ${siteConfig.availability}`}
-                className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--surface)] border border-[var(--line)]"
-              >
-                <span className="signal-dot" aria-hidden="true" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)]">
-                  {siteConfig.availability}
-                </span>
-              </div>
-            )}
-
             {/* Theme Toggle */}
             <ThemeToggle />
 
