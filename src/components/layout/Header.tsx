@@ -82,10 +82,13 @@ export function Header() {
             <button
               ref={menuButtonRef}
               type="button"
-              onClick={() => setIsMenuOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMenuOpen(true);
+              }}
               aria-label="Open primary navigation menu"
               aria-expanded={isMenuOpen}
-              className="group flex items-center gap-2 px-4 py-2 min-h-[44px] min-w-[44px] rounded-full border border-[var(--line-strong)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-all duration-200 cursor-pointer active:scale-95"
+              className="touch-manipulation select-none group flex items-center gap-2 px-4 py-2 min-h-[44px] min-w-[44px] rounded-full border border-[var(--line-strong)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-colors duration-200 cursor-pointer active:scale-95"
             >
               <span className="font-mono text-xs uppercase tracking-[0.14em] font-semibold group-hover:text-[var(--accent)] transition-colors">
                 MENU

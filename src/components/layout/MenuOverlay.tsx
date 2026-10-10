@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, X } from "lucide-react";
 import { useLenis } from "@/hooks/useLenis";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useIsTouch } from "@/hooks/useIsTouch";
 import { profile } from "@/data/profile";
+import { cn } from "@/lib/utils";
 
 interface MenuOverlayProps {
   isOpen: boolean;
@@ -30,8 +31,23 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
   const prefersReduced = useReducedMotion();
   const isTouch = useIsTouch();
   const isMobile = isTouch || (typeof window !== "undefined" && window.innerWidth < 768);
+  const [canClose, setCanClose] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Prevent instant touch-through dismissal on mobile opening
+  useEffect(() => {
+    if (!isOpen) {
+      setCanClose(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCanClose(true);
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   // Focus trap and ESC key handling
   useEffect(() => {
@@ -41,10 +57,12 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Focus close button on open
-    setTimeout(() => {
-      closeButtonRef.current?.focus();
-    }, 50);
+    // Focus close button on open only for desktop keyboard navigation
+    if (!isMobile) {
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 50);
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -81,7 +99,7 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose, triggerRef]);
+  }, [isOpen, onClose, triggerRef, isMobile]);
 
   const handleNavClick = (id: string) => {
     onClose();
@@ -150,12 +168,17 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
               <button
                 ref={closeButtonRef}
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!canClose) return;
                   onClose();
                   triggerRef.current?.focus();
                 }}
                 aria-label="Close navigation menu"
-                className="flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-full border border-[var(--line)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-colors cursor-pointer"
+                className={cn(
+                  "touch-manipulation select-none flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-full border border-[var(--line)] bg-[var(--surface)] hover:border-[var(--accent)] text-[var(--text)] transition-colors cursor-pointer",
+                  !canClose && "pointer-events-none"
+                )}
               >
                 <span className="font-mono text-xs uppercase tracking-widest font-semibold">
                   CLOSE
