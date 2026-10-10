@@ -232,30 +232,22 @@
 }
 
 /* Mobile Glowing Footer Wordmark (Phones only: < 768px) */
-@keyframes footerWordmarkGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.45));
-    opacity: 0.9;
+@media (max-width: 767px) {
+  @keyframes footerWordmarkGlow {
+    0%, 100% {
+      filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.45));
+      opacity: 0.9;
+    }
+    50% {
+      filter: drop-shadow(0 0 16px rgba(var(--accent-rgb), 0.9));
+      opacity: 1;
+    }
   }
-  50% {
-    filter: drop-shadow(0 0 16px rgba(var(--accent-rgb), 0.9));
-    opacity: 1;
-  }
-}
 
-.footer-wordmark-mobile {
-  stroke: var(--accent);
-  stroke-width: 2.2px;
-  animation: footerWordmarkGlow 3s ease-in-out infinite;
-}
-
-@media (min-width: 768px) {
   .footer-wordmark-mobile {
-    stroke: var(--line-strong);
-    stroke-width: 1.5px;
-    animation: none;
-    filter: none;
-    opacity: 1;
+    stroke: var(--accent);
+    stroke-width: 2.2px;
+    animation: footerWordmarkGlow 3s ease-in-out infinite;
   }
 }
 

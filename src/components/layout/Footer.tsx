@@ -32,7 +32,7 @@ export function Footer() {
 
         {/* Giant Outlined Wordmark */}
         <div
-          className="w-full select-none overflow-hidden group cursor-default"
+          className="w-full select-none overflow-hidden group cursor-pointer"
           aria-hidden="true"
         >
           <svg
@@ -45,7 +45,7 @@ export function Footer() {
               y="50%"
               dominantBaseline="middle"
               textAnchor="middle"
-              className="font-display font-black text-[120px] md:text-[145px] tracking-tight fill-transparent footer-wordmark-mobile group-hover:stroke-[var(--accent)] transition-all duration-500"
+              className="font-display font-black text-[120px] md:text-[145px] tracking-tight fill-transparent stroke-[var(--line-strong)] stroke-[1.5px] footer-wordmark-mobile group-hover:stroke-[var(--accent)] group-hover:drop-shadow-[0_0_24px_rgba(var(--accent-rgb),0.65)] transition-all duration-500"
               style={{
                 strokeDasharray: "1200",
                 strokeDashoffset: "0",
