@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, X } from "lucide-react";
 import { useLenis } from "@/hooks/useLenis";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsTouch } from "@/hooks/useIsTouch";
 import { profile } from "@/data/profile";
 
 interface MenuOverlayProps {
@@ -27,6 +28,8 @@ const MENU_ITEMS = [
 export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
   const { scrollTo } = useLenis();
   const prefersReduced = useReducedMotion();
+  const isTouch = useIsTouch();
+  const isMobile = isTouch || (typeof window !== "undefined" && window.innerWidth < 768);
   const menuRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -85,7 +88,7 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
     setTimeout(() => {
       scrollTo(`#${id}`);
       triggerRef.current?.focus();
-    }, 300);
+    }, isMobile ? 180 : 300);
   };
 
   return (
@@ -97,25 +100,37 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
           aria-modal="true"
           aria-label="Navigation Menu"
           initial={
-            prefersReduced
-              ? { opacity: 0 }
+            prefersReduced || isMobile
+              ? { opacity: 0, y: -10 }
               : { clipPath: "circle(0% at calc(100% - 4rem) 3rem)", opacity: 0 }
           }
-          animate={{
-            clipPath: "circle(150% at calc(100% - 4rem) 3rem)",
-            opacity: 1,
-            transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
-          }}
+          animate={
+            prefersReduced || isMobile
+              ? {
+                  opacity: 1,
+                  y: 0,
+                  transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
+                }
+              : {
+                  clipPath: "circle(150% at calc(100% - 4rem) 3rem)",
+                  opacity: 1,
+                  transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+                }
+          }
           exit={
-            prefersReduced
-              ? { opacity: 0 }
+            prefersReduced || isMobile
+              ? {
+                  opacity: 0,
+                  y: -10,
+                  transition: { duration: 0.2, ease: "easeIn" },
+                }
               : {
                   clipPath: "circle(0% at calc(100% - 4rem) 3rem)",
                   opacity: 0,
                   transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
                 }
           }
-          className="fixed inset-0 z-[150] h-[100dvh] w-full bg-[var(--bg)]/98 backdrop-blur-2xl overflow-y-auto overscroll-contain"
+          className="fixed inset-0 z-[150] h-[100dvh] w-full bg-[var(--bg)] md:bg-[var(--bg)]/98 md:backdrop-blur-2xl overflow-y-auto overscroll-contain"
           data-lenis-prevent
           style={{ WebkitOverflowScrolling: "touch" }}
         >
@@ -157,11 +172,11 @@ export function MenuOverlay({ isOpen, onClose, triggerRef }: MenuOverlayProps) {
               {MENU_ITEMS.map((item, index) => (
                 <motion.div
                   key={item.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={isMobile ? { opacity: 0 } : { opacity: 0, x: -20 }}
+                  animate={isMobile ? { opacity: 1 } : { opacity: 1, x: 0 }}
                   transition={{
-                    delay: 0.12 + index * 0.035,
-                    duration: 0.35,
+                    delay: isMobile ? 0.04 + index * 0.02 : 0.12 + index * 0.035,
+                    duration: isMobile ? 0.2 : 0.35,
                     ease: "easeOut",
                   }}
                 >

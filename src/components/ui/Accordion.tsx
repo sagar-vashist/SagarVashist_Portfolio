@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsTouch } from "@/hooks/useIsTouch";
 
 export interface AccordionItemData {
   id: string;
@@ -31,12 +32,18 @@ export function Accordion({
     defaultOpenId ?? (items.length > 0 ? items[0].id : null)
   );
   const prefersReduced = useReducedMotion();
+  const isTouch = useIsTouch();
 
   const toggle = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
   const handleHover = (id: string) => {
+    // Only expand on hover on desktop devices with a mouse
+    if (isTouch) return;
+    if (typeof window !== "undefined" && window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+      return;
+    }
     if (expandOnHover) {
       setOpenId(id);
     }
@@ -73,7 +80,11 @@ export function Accordion({
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => toggle(item.id)}
-                onFocus={() => handleHover(item.id)}
+                onFocus={() => {
+                  if (!isTouch && typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches) {
+                    handleHover(item.id);
+                  }
+                }}
                 className={cn(
                   "w-full py-6 md:py-8 px-4 sm:px-6 flex items-center justify-between text-left cursor-pointer",
                   "transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[var(--accent)]"

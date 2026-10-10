@@ -8,17 +8,24 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useIsTouch } from "@/hooks/useIsTouch";
 import { cn } from "@/lib/utils";
 
 export function Services() {
   const [activeId, setActiveId] = useState<string | null>("full-stack-web-development");
   const prefersReduced = useReducedMotion();
+  const isTouch = useIsTouch();
 
   const handleToggle = (id: string) => {
     setActiveId((prev) => (prev === id ? null : id));
   };
 
   const handleHover = (id: string) => {
+    // Only expand on hover on desktop devices with a mouse
+    if (isTouch) return;
+    if (typeof window !== "undefined" && window.matchMedia("(hover: none), (pointer: coarse)").matches) {
+      return;
+    }
     setActiveId(id);
   };
 
@@ -76,7 +83,11 @@ export function Services() {
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       onClick={() => handleToggle(service.id)}
-                      onFocus={() => handleHover(service.id)}
+                      onFocus={() => {
+                        if (!isTouch && typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches) {
+                          handleHover(service.id);
+                        }
+                      }}
                       className={cn(
                         "w-full py-6 md:py-8 px-4 sm:px-6 flex items-center justify-between text-left cursor-pointer",
                         "transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-[var(--accent)]"

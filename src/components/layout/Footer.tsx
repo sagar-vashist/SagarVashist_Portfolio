@@ -45,7 +45,7 @@ export function Footer() {
               y="50%"
               dominantBaseline="middle"
               textAnchor="middle"
-              className="font-display font-black text-[120px] md:text-[145px] tracking-tight fill-transparent stroke-[var(--line-strong)] stroke-[1.5px] group-hover:stroke-[var(--accent)] transition-all duration-500"
+              className="font-display font-black text-[120px] md:text-[145px] tracking-tight fill-transparent footer-wordmark-mobile group-hover:stroke-[var(--accent)] transition-all duration-500"
               style={{
                 strokeDasharray: "1200",
                 strokeDashoffset: "0",
